@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSFileManager tests</title>
+	<script src='dist/jsfilemanager.min.js'></script>
+	<script src='https://npmcdn.com/js-alert/dist/jsalert.min.js'></script>
+	<style>
+		.button {
+			display: inline-block;
+			margin: 10px;
+			padding: 10px 20px;
+			border: 1px solid #08F;
+			border-radius: 4px;
+			color: #08F;
+			cursor: pointer;
+			font-family: Helvetica Neue, Helvetica, Arial;
+			font-size: 15px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+
+	<!-- Header -->
+	<h1>JSFileManager tests</h1>
+
+	<!-- Test category -->
+	<h2>Opening files</h2>
+
+
+
+
+	<div id='test01' class='button'>Pick a file</div>
+	<script>
+
+		// Show the browser's native file picker immediately
+		document.querySelector("#test01").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+
+				console.log(file);
+				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Picked");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test02' class='button'>Pick a file with drop zone</div>
+	<script>
+
+		// Show the picker overlay
+		document.querySelector("#test02").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ dropzone: true }).then(function(file) {
+
+				console.log(file);
+				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Picked");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test03' class='button'>Pick multiple files with drop zone</div>
+	<script>
+
+		// Show the picker overlay
+		document.querySelector("#test03").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ dropzone: true, maxFiles: 999 }).then(function(files) {
+
+				console.log(files);
+				JSAlert.alert("You picked " + files.length + " files", "Files Picked");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test04' class='button'>Read ArrayBuffer</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test04").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getArrayBuffer();
+			}).then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("ArrayBuffer of " + data.byteLength + " bytes loaded", "Data Loaded");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test05' class='button'>Read Blob</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test05").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getBlob();
+			}).then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("Blob of " + data.size + " bytes loaded", "Data Loaded");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test06' class='button'>Read String</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test06").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getString();
+			}).then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("String of length " + data.length + " loaded", "Data Loaded");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test07' class='button'>Read JSON</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test07").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getJSON();
+			}).then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("JSON Object loaded", "Data Loaded");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test08' class='button'>Read Data URL</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test08").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getDataURL();
+			}).then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("Data URL loaded", "Data Loaded");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- Test category -->
+	<h2>Saving files</h2>
+
+
+
+
+	<div id='test201' class='button'>Save binary data</div>
+	<script>
+
+		// Show the browser's native file saver immediately
+		document.querySelector("#test201").addEventListener("click", function(e) {
+
+			// Generate some data
+			var data = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+
+			// Save it
+			new JSFile(data, "MyFile.dat").save({ event: e }).then(function(file) {
+
+				console.log(file);
+				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test202' class='button'>Save string</div>
+	<script>
+
+		// Show the browser's native file saver immediately
+		document.querySelector("#test202").addEventListener("click", function(e) {
+
+			// Generate some data
+			var data = "test file content";
+
+			// Save it
+			new JSFile(data, "MyFile.txt").save({ event: e }).then(function(file) {
+
+				console.log(file);
+				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test203' class='button'>Save JSON</div>
+	<script>
+
+		// Show the browser's native file saver immediately
+		document.querySelector("#test203").addEventListener("click", function(e) {
+
+			// Generate some data
+			var data = {attr: "value"};
+
+			// Save it
+			new JSFile(data, "MyFile.json").save({ event: e }).then(function(file) {
+
+				console.log(file);
+				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test204' class='button'>Reverse text file</div>
+	<script>
+
+		// Show the browser's native file picker immediately
+		document.querySelector("#test204").addEventListener("click", function(e) {
+
+			// Read a string file
+			JSFileManager.pick({ event: e }).then(function(file) {
+
+				// Load text
+				file.getString().then(function(data) {
+
+					// Reverse the text
+					var text2 = "";
+					for (var i = 0 ; i < data.length ; i++)
+						text2 = data[i] + text2;
+
+					// Create a file from it
+					new JSFile(text2, file.name + "-reversed.txt").save().then(function(file2) {
+
+						console.log(file2);
+						JSAlert.alert(file2.name + " is " + file2.size + " bytes", "File Saved");
+
+					});
+
+				});
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
