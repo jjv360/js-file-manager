@@ -63,7 +63,7 @@ Returns a promise to a JSFile object. You can pass an options object to the `pic
 
 Option		| Type				| Description
 ------------|-------------------|-----------------------
-`event` 	| Browser event 	| If you call `pick()` from within a [trusted event](https://developer.mozilla.org/en/docs/Web/API/Event/isTrusted) and pass in the event here, the system file picker will be shown immediately.
+`event` 	| Browser event 	| If you call `pick()` from within a [trusted event] and pass in the event here, the system file picker will be shown immediately.
 `dropzone`	| Boolean			| Defaults to `false`. If `true`, will show a drop zone overlay UI to allow the user to drop files on the browser window instead of selecting them with the picker.
 `maxFiles`	| Integer			| Defaults to 1. If this is higher than 1, the result of the promise will be an array of JSFiles.
 
@@ -87,9 +87,42 @@ Saves the file. Returns a Promise once completed. The options is an object with 
 
 Option		| Type				| Description
 ------------|-------------------|-----------------------
-`event` 	| Browser event 	| If you call `save()` from within a [trusted event](https://developer.mozilla.org/en/docs/Web/API/Event/isTrusted) and pass in the event here, the system file save dialog will be shown immediately.
+`event` 	| Browser event 	| If you call `save()` from within a [trusted event] and pass in the event here, the system file save dialog will be shown immediately.
 
 
 ### `JSFile.setData(data)`
 
 Update the file's data. The data won't be written to the file until you call `save()`. This is the same as `new JSFile(data)`, but reuses the same file object.
+
+
+### `JSFile.getArrayBuffer()`
+
+Retrieves the file's contents as an [ArrayBuffer]. Returns a [Promise].
+
+
+### `JSFile.getBlob()`
+
+Retrieves the file's contents as a [Blob]. Returns a [Promise].
+
+
+### `JSFile.getString()`
+
+Retrieves the file's contents as a string. Returns a [Promise].
+
+
+### `JSFile.getJSON()`
+
+Retrieves the file's contents as a JSON object. Returns a [Promise].
+
+
+### `JSFile.getDataURL()`
+
+Retrieves the file's contents as a [data URL], which can be displayed in an `<img/>` or other tag. Returns a [Promise].
+
+
+
+[ArrayBuffer]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
+[Blob]: https://developer.mozilla.org/en/docs/Web/API/Blob
+[data URL]: https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
+[Promise]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[trusted event]: https://developer.mozilla.org/en/docs/Web/API/Event/isTrusted
