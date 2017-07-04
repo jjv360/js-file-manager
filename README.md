@@ -51,7 +51,8 @@ JSFileManager.pick({ dropzone: true, maxFiles: 999 })
 Save an ArrayBuffer as a file on the device:
 
 ``` javascript
-new JSFile(arrayBuffer, "Filename.ext").save({ event: touchOrClickBrowserEvent})
+new JSFile(arrayBuffer, "Filename.ext")
+    .save({ event: touchOrClickBrowserEvent})
 ```
 
 
@@ -80,8 +81,37 @@ Argument	| Type														| Description
 `name`		| String													| *(optional)* The name of the file.
 
 
+### `JSFile.fromURL(url, name)`
 
-### `JSFile.save(options)`
+Creates a new JSFile, with the contents of the specified URL.
+
+Argument	| Type		| Description
+------------|-----------|-----------------------
+`url`		| String	| The URL to the file. The file's contents are only downloaded when requested (ie. using `file.getArrayBuffer()` etc)
+`name`		| String	| *(optional)* The name of the file.
+
+
+### `file.name`
+
+The file's name.
+
+
+### `file.type`
+
+The file's mimetype.
+
+
+### `file.size`
+
+The file's size, if available, or else 0.
+
+
+### `file.lastModifiedDate`
+
+The file's last modified date if available, or else the date the JSFile's data was last updated.
+
+
+### `file.save(options)`
 
 Saves the file. Returns a Promise once completed. The options is an object with these fields:
 
@@ -90,37 +120,37 @@ Option		| Type				| Description
 `event` 	| Browser event 	| If you call `save()` from within a [trusted event] and pass in the event here, the system file save dialog will be shown immediately.
 
 
-### `JSFile.setData(data)`
+### `file.setData(data)`
 
 Update the file's data. The data won't be written to the file until you call `save()`. This is the same as `new JSFile(data)`, but reuses the same file object.
 
 
-### `JSFile.getArrayBuffer()`
+### `file.getArrayBuffer()`
 
 Retrieves the file's contents as an [ArrayBuffer]. Returns a [Promise].
 
 
-### `JSFile.getBlob()`
+### `file.getBlob()`
 
 Retrieves the file's contents as a [Blob]. Returns a [Promise].
 
 
-### `JSFile.getString()`
+### `file.getString()`
 
 Retrieves the file's contents as a string. Returns a [Promise].
 
 
-### `JSFile.getJSON()`
+### `file.getJSON()`
 
 Retrieves the file's contents as a JSON object. Returns a [Promise].
 
 
-### `JSFile.getDataURL()`
+### `file.getDataURL()`
 
 Retrieves the file's contents as a [data URL], which can be displayed in an `<img/>` or other tag. The contents of the file are Base64 encoded into the URL, so this should not be used for large files. Returns a [Promise].
 
 
-### `JSFile.getObjectURL()`
+### `file.getObjectURL()`
 
 Retrieves an [Object URL] pointing to this file's content. This is similar to `getDataURL()`, except the URL doesn't contain the actual data, just a pointer to it, so it works with files of any size.
 The URL is only valid in the context of the running web app. Returns a [Promise].

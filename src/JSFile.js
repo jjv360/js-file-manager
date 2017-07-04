@@ -3,6 +3,7 @@
 
 const UTF8 = require("utf-8")
 const saveAs = require("file-saver").saveAs
+const axios = require("axios")
 
 module.exports = class JSFile {
 
@@ -18,12 +19,47 @@ module.exports = class JSFile {
 		/** @private This contains the actual data for the file, or a link to it. This will only ever be an ArrayBuffer, a Blob, or a File.  */
 		this.fileData = null
 
+		/** @private If the file's data is located at a remote URL, this is that URL. */
+		this.fileURL = null
+
 		// Store data
 		this.setData(data);
 
 		// Update name
 		if (name)
 			this.name = name;
+
+	}
+
+	/** Create a file from a remote URL */
+	static fromURL(url, name) {
+
+		// Get last URL component as file name
+		var urlname = url
+		var idx = urlname.lastIndexOf("/")
+		if (idx != -1) urlname = urlname.substring(idx+1)
+		idx = urlname.lastIndexOf("\\")
+		if (idx != -1) urlname = urlname.substring(idx+1)
+		idx = urlname.indexOf("?")
+		if (idx != -1) urlname = urlname.substring(0, idx)
+
+		// Create file
+		var file = new JSFile(null, name || urlname)
+		file.fileData = null
+		file.fileURL = url
+		return file
+
+	}
+
+	/** @private Makes sure the file's contents have been downloaded, if necessary. Will set fileData to a blob. Returns a promise. */
+	download() {
+
+		// Check if we have file data already, or no URL to download from
+		if (this.fileData || !this.fileURL)
+			return Promise.resolve(this)
+
+		// Send request, store result blob
+		return axios.get(this.fileURL, { responseType: 'blob' }).then(response => this.setData(response.data))
 
 	}
 
@@ -35,6 +71,9 @@ module.exports = class JSFile {
 
 			// No data provided
 			this.fileData = new ArrayBuffer(0);
+			this.size = 0
+			this.lastModified = Date.now()
+			this.lastModifiedDate = new Date()
 
 		} else if (typeof File != "undefined" && data instanceof File) {
 
@@ -52,18 +91,24 @@ module.exports = class JSFile {
 			this.type = data.type || "application/octet-stream"
 			this.size = data.size
 			this.fileData = data
+			this.lastModified = Date.now()
+			this.lastModifiedDate = new Date()
 
 		} else if (typeof ArrayBuffer != "undefined" && data instanceof ArrayBuffer) {
 
 			// Store info
 			this.size = data.byteLength
 			this.fileData = data
+			this.lastModified = Date.now()
+			this.lastModifiedDate = new Date()
 
 		} else if (typeof ArrayBuffer != "undefined" && data.buffer instanceof ArrayBuffer) {
 
 			// Store info
 			this.size = data.buffer.byteLength
 			this.fileData = data.buffer
+			this.lastModified = Date.now()
+			this.lastModifiedDate = new Date()
 
 		} else if (typeof data == "string") {
 
@@ -72,6 +117,8 @@ module.exports = class JSFile {
 			this.size = bytes.buffer.byteLength
 			this.type = "text/plain; charset=utf-8"
 			this.fileData = bytes.buffer
+			this.lastModified = Date.now()
+			this.lastModifiedDate = new Date()
 
 		} else if (typeof data == "object") {
 
@@ -80,13 +127,18 @@ module.exports = class JSFile {
 			this.size = bytes.buffer.byteLength
 			this.type = "text/plain; charset=utf-8"
 			this.fileData = bytes.buffer
+			this.lastModified = Date.now()
+			this.lastModifiedDate = new Date()
 
 		} else {
 
 			// Unknown data type
-			throw new Error("JSFile constructor needs data, but instead received " + data)
+			throw new Error("JSFile.setData() needs data, but instead received " + data)
 
 		}
+
+		// Done
+		return this
 
 	}
 
@@ -98,7 +150,7 @@ module.exports = class JSFile {
 			return Promise.resolve(this.fileData);
 
 		// Create promise
-		return new Promise((onSuccess, onFail) => {
+		return this.download().then(e => new Promise((onSuccess, onFail) => {
 
 			// Read the file data
 			var reader = new FileReader();
@@ -106,7 +158,7 @@ module.exports = class JSFile {
 			reader.onerror = onFail;
 			reader.readAsArrayBuffer(this.fileData);
 
-		});
+		}));
 
 	}
 
@@ -118,7 +170,7 @@ module.exports = class JSFile {
 			return Promise.resolve(new Blob([this.fileData], { type: this.type }));
 
 		// Data is already a blob (or blob compatible)
-		return Promise.resolve(this.fileData);
+		return this.download().then(e => this.fileData)
 
 	}
 
@@ -135,7 +187,7 @@ module.exports = class JSFile {
 		}
 
 		// Create promise
-		return new Promise((onSuccess, onFail) => {
+		return this.download().then(e => new Promise((onSuccess, onFail) => {
 
 			// Read the file data
 			var reader = new FileReader();
@@ -143,7 +195,7 @@ module.exports = class JSFile {
 			reader.onerror = onFail;
 			reader.readAsText(this.fileData);
 
-		});
+		}))
 
 	}
 
@@ -156,10 +208,7 @@ module.exports = class JSFile {
 	getDataURL() {
 
 		// Create promise
-		return new Promise((onSuccess, onFail) => {
-
-			// Get Blob to read
-			var blob = this.fileData instanceof ArrayBuffer ? new Blob([this.fileData]) : this.fileData;
+		return this.getBlob().then(blob => new Promise((onSuccess, onFail) => {
 
 			// Read the file data
 			var reader = new FileReader();
@@ -167,7 +216,7 @@ module.exports = class JSFile {
 			reader.onerror = onFail;
 			reader.readAsDataURL(blob);
 
-		});
+		}))
 
 	}
 

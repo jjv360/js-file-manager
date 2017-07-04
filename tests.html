@@ -200,6 +200,53 @@
 
 
 
+	<div id='test09' class='button'>Read Object URL</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test09").addEventListener("click", function(e) {
+
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getObjectURL();
+			}).then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("Object URL loaded: " + data, "Data Loaded");
+
+			});
+
+		});
+
+	</script>
+
+
+
+
+	<div id='test10' class='button'>Open URL and read string</div>
+	<script>
+
+		// Show the picker
+		document.querySelector("#test10").addEventListener("click", function(e) {
+
+			JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").getString().then(function(data) {
+
+				console.log(data);
+				JSAlert.alert("String of length " + data.length + " loaded from URL", "Data Loaded");
+
+			}).catch(function(err) {
+
+				console.warn(err)
+				JSAlert.alert(err.message, "Error")
+
+			});
+
+		});
+
+	</script>
+
+
+
+
 
 
 
