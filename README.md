@@ -51,15 +51,13 @@ JSFileManager.pick({ dropzone: true, maxFiles: 999 })
 Save an ArrayBuffer as a file on the device:
 
 ``` javascript
-new JSFile(arrayBuffer, "Filename.ext")
-    .save()
+new JSFile(arrayBuffer, "Filename.ext").save()
 ```
 
 Download a file to the device:
 
 ``` javascript
-JSFile.fromURL("http://my.com/file.pdf")
-    .save()
+JSFile.fromURL("http://my.com/file.pdf").save()
 ```
 
 
