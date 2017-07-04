@@ -60,6 +60,7 @@ Download a file to the device:
 ``` javascript
 JSFile.fromURL("http://my.com/file.pdf")
     .save()
+```
 
 
 ## JSFileManager
