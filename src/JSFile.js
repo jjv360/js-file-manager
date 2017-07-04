@@ -171,6 +171,14 @@ module.exports = class JSFile {
 
 	}
 
+	/** Read as a Blob (object) URL */
+	getObjectURL() {
+
+		// Get blob, convert to object URL
+		return this.getBlob().then(blob => URL.createObjectURL(blob))
+
+	}
+
 	/** Save file */
 	save(opts) {
 

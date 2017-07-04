@@ -117,12 +117,19 @@ Retrieves the file's contents as a JSON object. Returns a [Promise].
 
 ### `JSFile.getDataURL()`
 
-Retrieves the file's contents as a [data URL], which can be displayed in an `<img/>` or other tag. Returns a [Promise].
+Retrieves the file's contents as a [data URL], which can be displayed in an `<img/>` or other tag. The contents of the file are Base64 encoded into the URL, so this should not be used for large files. Returns a [Promise].
+
+
+### `JSFile.getObjectURL()`
+
+Retrieves an [Object URL] pointing to this file's content. This is similar to `getDataURL()`, except the URL doesn't contain the actual data, just a pointer to it, so it works with files of any size.
+The URL is only valid in the context of the running web app. Returns a [Promise].
 
 
 
 [ArrayBuffer]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer
 [Blob]: https://developer.mozilla.org/en/docs/Web/API/Blob
-[data URL]: https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
+[data URL]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
+[Object URL]: https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL
 [Promise]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise
 [trusted event]: https://developer.mozilla.org/en/docs/Web/API/Event/isTrusted

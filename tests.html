@@ -326,5 +326,61 @@
 
 
 
+
+
+
+
+	<!-- Test category -->
+	<h2>Displaying files</h2>
+
+	<img id='imagetest' src='#' style='display: block; width: 300px; ' />
+
+
+	<div id='test301' class='button'>Display data URL</div>
+	<script>
+
+		// Display image
+		document.querySelector("#test301").addEventListener("click", function(e) {
+
+			// Pick image
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getDataURL()
+			}).then(function(url) {
+				document.getElementById("imagetest").src = url
+			}).catch(function(err) {
+				JSAlert.alert(err.message, "Unable to Display")
+			})
+
+		});
+
+	</script>
+
+
+	<div id='test302' class='button'>Display object URL</div>
+	<script>
+
+		// Display image
+		document.querySelector("#test302").addEventListener("click", function(e) {
+
+			// Pick image
+			JSFileManager.pick({ event: e }).then(function(file) {
+				return file.getObjectURL()
+			}).then(function(url) {
+				document.getElementById("imagetest").src = url
+			}).catch(function(err) {
+				JSAlert.alert(err.message, "Unable to Display")
+			})
+
+		});
+
+	</script>
+
+
+
+
+
+
+
+
 </body>
 </html>
