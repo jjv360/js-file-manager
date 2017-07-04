@@ -369,6 +369,22 @@
 
 
 
+	<div id='test205' class='button'>Download remote file</div>
+	<script>
+
+		// On button click...
+		document.querySelector("#test205").addEventListener("click", function(e) {
+
+			// ... download and save file
+			JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").save()
+
+		});
+
+	</script>
+
+
+
+
 
 
 

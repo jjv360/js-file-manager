@@ -52,8 +52,14 @@ Save an ArrayBuffer as a file on the device:
 
 ``` javascript
 new JSFile(arrayBuffer, "Filename.ext")
-    .save({ event: touchOrClickBrowserEvent})
+    .save()
 ```
+
+Download a file to the device:
+
+``` javascript
+JSFile.fromURL("http://my.com/file.pdf")
+    .save()
 
 
 ## JSFileManager
@@ -111,13 +117,11 @@ The file's size, if available, or else 0.
 The file's last modified date if available, or else the date the JSFile's data was last updated.
 
 
-### `file.save(options)`
+### `file.save()`
 
-Saves the file. Returns a Promise once completed. The options is an object with these fields:
+Saves the file. Returns a Promise once completed.
 
-Option		| Type				| Description
-------------|-------------------|-----------------------
-`event` 	| Browser event 	| If you call `save()` from within a [trusted event] and pass in the event here, the system file save dialog will be shown immediately.
+> NOTE: On some browsers, this needs to be called from within a [trusted event].
 
 
 ### `file.setData(data)`
