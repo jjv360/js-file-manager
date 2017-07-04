@@ -4,6 +4,7 @@
 const UTF8 = require("utf-8")
 const saveAs = require("file-saver").saveAs
 const axios = require("axios")
+const base64 = require("base64-arraybuffer")
 
 module.exports = class JSFile {
 
@@ -33,6 +34,39 @@ module.exports = class JSFile {
 
 	/** Create a file from a remote URL */
 	static fromURL(url, name) {
+
+		// Specal case: Data URLs
+		if (url.substring(0, 5).toLowerCase() == "data:") {
+
+			// Strip scheme
+			url = url.substring(5)
+
+			// Get mimetype index
+			var idx = url.indexOf(",")
+			if (idx == -1)
+				throw new Error("Invalid data: URL")
+
+			// Get mimetype
+			var type = url.substring(0, idx) || "text/plain;charset=US-ASCII"
+			var data = url.substring(idx + 1)
+
+			// Check if base64 encoded
+			if (type.substring(type.length - 7).toLowerCase() == ";base64") {
+
+				// Remove base64 from type
+				type = type.substring(0, type.length - 7)
+
+				// Decode data
+				data = base64.decode(data)
+
+			}
+
+			// Create file from data
+			var file = new JSFile(data, name)
+			file.type = type
+			return file
+
+		}
 
 		// Get last URL component as file name
 		var urlname = url
