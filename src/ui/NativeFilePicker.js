@@ -18,6 +18,11 @@ module.exports = class NativeFilePicker {
 			NativeElement.type = "file";
 			NativeElement.style.display = "none";
 
+			// Only accept specific file formats
+			if (opts.accept != null && typeof opts.accept == 'string') {
+				NativeElement.accept = opts.accept;
+			}
+
 			// Add it
 			document.body.appendChild(NativeElement);
 
