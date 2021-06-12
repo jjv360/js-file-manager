@@ -48,6 +48,12 @@ JSFileManager.pick({ dropzone: true, maxFiles: 999 })
     .then(files => ...)
 ```
 
+Only accept specific file formats:
+```javascript
+JSFileManager.pick({ accept: ".jpg, .jpeg, .gif, .png" })
+    .then(file => ...)
+```
+
 Save an ArrayBuffer as a file on the device:
 
 ``` javascript
@@ -72,6 +78,7 @@ Option		| Type				| Description
 `event` 	| Browser event 	| If you call `pick()` from within a [trusted event] and pass in the event here, the system file picker will be shown immediately.
 `dropzone`	| Boolean			| Defaults to `false`. If `true`, will show a drop zone overlay UI to allow the user to drop files on the browser window instead of selecting them with the picker.
 `maxFiles`	| Integer			| Defaults to 1. If this is higher than 1, the result of the promise will be an array of JSFiles.
+`accept`	| String			| File formats to accept. Can be extensions (such as `".jpg"`) or types (such as `"image/*"`). If more than one format can be accepted, separate the formats by commas (`,`).
 
 
 ## JSFile
