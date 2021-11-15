@@ -27,12 +27,7 @@ module.exports = {
             // Load images
             {
                 test: /\.(svg|png|gif|jpg)$/,
-                use: {
-                    loader: 'url-loader',
-                    options: {
-                        limit: 1024 * 1024 * 16
-                    }
-                }
+                type: 'asset/resource',
             },
 
             // Load JS
