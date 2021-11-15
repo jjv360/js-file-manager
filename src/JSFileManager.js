@@ -6,8 +6,14 @@ var FilePicker = require("./ui/FilePicker");
 
 module.exports = class JSFileManager {
 
-	/** Pick a file */
-	static pick(opts) {
+	/**
+	 * Picks a file.
+	 * @param {object} opts Configurable options.
+	 * @param {number} opts.maxFiles Maximum number of files to select. Default is 1.
+	 * @param {boolean} opts.dropzone `true` to show a drop zone overlay, allowing the user to drop files instead of selecting them. Default is `false`.
+	 * @param {Event} opts.event Browser event.
+	 */
+	static pick(opts = {}) {
 
 		// Set default options
 		opts.maxFiles = opts.maxFiles || 1;
