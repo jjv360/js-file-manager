@@ -1,10 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>JSFileManager tests</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Scripts -->
 	<script src='dist/jsfilemanager.min.js'></script>
 	<script src='https://npmcdn.com/js-alert/dist/jsalert.min.js'></script>
+
+	<!-- Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+	<title>JSFileManager Tests</title>
+
+	<!-- Global page styling -->
 	<style>
+		* {
+			font-family: 'Roboto', sans-serif;
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			align-items: center;
+		}
+
+		.group {
+			display: flex;
+			flex-wrap: wrap;
+			width: 60%;
+			justify-content: center;
+			align-items: center;
+		}
+
 		.button {
 			display: inline-block;
 			margin: 10px;
@@ -19,365 +57,344 @@
 		}
 	</style>
 </head>
+
 <body>
 
 	<!-- Header -->
-	<h1>JSFileManager tests</h1>
+	<h1>JSFileManager Tests</h1>
 
 	<!-- Test category -->
-	<h2>Opening files</h2>
+	<h2>Opening Files</h2>
 
+	<!-- Opening files group -->
+	<div class='group'>
 
+		<div id='test01' class='button'>Pick a file</div>
+		<script>
 
+			// Show the browser's native file picker immediately
+			document.querySelector("#test01").addEventListener("click", function (e) {
 
-	<div id='test01' class='button'>Pick a file</div>
-	<script>
+				JSFileManager.pick({ event: e }).then(function (file) {
 
-		// Show the browser's native file picker immediately
-		document.querySelector("#test01").addEventListener("click", function(e) {
+					console.log(file);
+					JSAlert.alert(file.name + " is " + file.size + " bytes", "File Picked");
 
-			JSFileManager.pick({ event: e }).then(function(file) {
-
-				console.log(file);
-				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Picked");
-
-			});
-
-		});
-
-	</script>
-
-
-
-
-	<div id='test02' class='button'>Pick a file with drop zone</div>
-	<script>
-
-		// Show the picker overlay
-		document.querySelector("#test02").addEventListener("click", function(e) {
-
-			JSFileManager.pick({ dropzone: true }).then(function(file) {
-
-				console.log(file);
-				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Picked");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test02' class='button'>Pick a file with drop zone</div>
+		<script>
 
+			// Show the picker overlay
+			document.querySelector("#test02").addEventListener("click", function (e) {
 
-	<div id='test03' class='button'>Pick multiple files with drop zone</div>
-	<script>
+				JSFileManager.pick({ dropzone: true }).then(function (file) {
 
-		// Show the picker overlay
-		document.querySelector("#test03").addEventListener("click", function(e) {
+					// Do nothing when no file was dropped
+					if (!file) {
+						return
+					}
 
-			JSFileManager.pick({ dropzone: true, maxFiles: 999 }).then(function(files) {
+					console.log(file);
+					JSAlert.alert(file.name + " is " + file.size + " bytes", "File Picked");
 
-				console.log(files);
-				JSAlert.alert("You picked " + files.length + " files", "Files Picked");
-
-			});
-
-		});
-
-	</script>
-
-
-
-
-	<div id='test04' class='button'>Read ArrayBuffer</div>
-	<script>
-
-		// Show the picker
-		document.querySelector("#test04").addEventListener("click", function(e) {
-
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getArrayBuffer();
-			}).then(function(data) {
-
-				console.log(data);
-				JSAlert.alert("ArrayBuffer of " + data.byteLength + " bytes loaded", "Data Loaded");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test03' class='button'>Pick multiple files with drop zone</div>
+		<script>
 
+			// Show the picker overlay
+			document.querySelector("#test03").addEventListener("click", function (e) {
 
-	<div id='test05' class='button'>Read Blob</div>
-	<script>
+				JSFileManager.pick({ dropzone: true, maxFiles: 999 }).then(function (files) {
 
-		// Show the picker
-		document.querySelector("#test05").addEventListener("click", function(e) {
+					// Do nothing when no files were dropped
+					if (!files || files.length < 1) {
+						return
+					}
 
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getBlob();
-			}).then(function(data) {
+					console.log(files);
+					JSAlert.alert("You picked " + files.length + " files", "Files Picked");
 
-				console.log(data);
-				JSAlert.alert("Blob of " + data.size + " bytes loaded", "Data Loaded");
-
-			});
-
-		});
-
-	</script>
-
-
-
-
-	<div id='test06' class='button'>Read String</div>
-	<script>
-
-		// Show the picker
-		document.querySelector("#test06").addEventListener("click", function(e) {
-
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getString();
-			}).then(function(data) {
-
-				console.log(data);
-				JSAlert.alert("String of length " + data.length + " loaded", "Data Loaded");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test04' class='button'>Read ArrayBuffer</div>
+		<script>
 
+			// Show the picker
+			document.querySelector("#test04").addEventListener("click", function (e) {
 
-	<div id='test07' class='button'>Read JSON</div>
-	<script>
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getArrayBuffer();
+				}).then(function (data) {
 
-		// Show the picker
-		document.querySelector("#test07").addEventListener("click", function(e) {
+					console.log(data);
+					JSAlert.alert("ArrayBuffer of " + data.byteLength + " bytes loaded", "Data Loaded");
 
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getJSON();
-			}).then(function(data) {
-
-				console.log(data);
-				JSAlert.alert("JSON Object loaded", "Data Loaded");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test05' class='button'>Read Blob</div>
+		<script>
 
+			// Show the picker
+			document.querySelector("#test05").addEventListener("click", function (e) {
 
-	<div id='test08' class='button'>Read Data URL</div>
-	<script>
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getBlob();
+				}).then(function (data) {
 
-		// Show the picker
-		document.querySelector("#test08").addEventListener("click", function(e) {
+					console.log(data);
+					JSAlert.alert("Blob of " + data.size + " bytes loaded", "Data Loaded");
 
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getDataURL();
-			}).then(function(data) {
-
-				console.log(data);
-				JSAlert.alert("Data URL loaded", "Data Loaded");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test06' class='button'>Read String</div>
+		<script>
 
+			// Show the picker
+			document.querySelector("#test06").addEventListener("click", function (e) {
 
-	<div id='test09' class='button'>Read Object URL</div>
-	<script>
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getString();
+				}).then(function (data) {
 
-		// Show the picker
-		document.querySelector("#test09").addEventListener("click", function(e) {
+					console.log(data);
+					JSAlert.alert("String of length " + data.length + " loaded", "Data Loaded");
 
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getObjectURL();
-			}).then(function(data) {
-
-				console.log(data);
-				JSAlert.alert("Object URL loaded: " + data, "Data Loaded");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test07' class='button'>Read JSON</div>
+		<script>
 
+			// Show the picker
+			document.querySelector("#test07").addEventListener("click", function (e) {
 
-	<div id='test10' class='button'>Open URL and read string</div>
-	<script>
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getJSON();
+				}).then(function (data) {
 
-		// Show the picker
-		document.querySelector("#test10").addEventListener("click", function(e) {
+					console.log(data);
+					JSAlert.alert("JSON Object loaded", "Data Loaded");
 
-			JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").getString().then(function(data) {
-
-				console.log(data);
-				JSAlert.alert("String of length " + data.length + " loaded from URL", "Data Loaded");
-
-			}).catch(function(err) {
-
-				console.warn(err)
-				JSAlert.alert(err.message, "Error")
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test08' class='button'>Read Data URL</div>
+		<script>
+
+			// Show the picker
+			document.querySelector("#test08").addEventListener("click", function (e) {
+
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getDataURL();
+				}).then(function (data) {
+
+					console.log(data);
+					JSAlert.alert("Data URL loaded", "Data Loaded");
+
+				});
+
+			});
+
+		</script>
 
 
-	<div id='test11' class='button'>Read Data URL</div>
-	<script>
+		<div id='test09' class='button'>Read Object URL</div>
+		<script>
 
-		var url11 = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuNCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyOHB4IiBoZWlnaHQ9IjU2cHgiIHZpZXdCb3g9IjAgMCAyOCA1NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjggNTY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJfeDM4XzU2LWxpZ2h0bmluZy1ib2x0X3g0MF8yeC5wbmciPg0KCTxnPg0KCQk8cGF0aCBkPSJNMjgsMjFIMTZsNi0yMUg4TDAsMzJoMTRsLTMsMjRMMjgsMjF6IE0yLjU2MiwzMGw3LTI4aDkuNzg3bC02LDIxaDExLjQ1N0wxNC40ODQsNDQuMjQ4bDEuNS0xMkwxNi4yNjYsMzBIMi41NjJ6Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo="
+			// Show the picker
+			document.querySelector("#test09").addEventListener("click", function (e) {
 
-		// Show the picker
-		document.querySelector("#test11").addEventListener("click", function(e) {
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getObjectURL();
+				}).then(function (data) {
 
-			var file = JSFile.fromURL(url11)
-			JSAlert.alert("JSFile of " + file.size + " bytes loaded, type is " + file.type, "Data Loaded");
+					console.log(data);
+					JSAlert.alert("Object URL loaded: " + data, "Data Loaded");
 
-			// Just for fun, convert it to a Object URL and display it
-			file.getObjectURL().then(function(url) {
-				document.getElementById("imagetest").src = url
-			})
+				});
 
-		});
+			});
 
-	</script>
-
+		</script>
 
 
+		<div id='test10' class='button'>Open URL and read string</div>
+		<script>
+
+			// Show the picker
+			document.querySelector("#test10").addEventListener("click", function (e) {
+
+				JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").getString().then(function (data) {
+
+					console.log(data);
+					JSAlert.alert("String of length " + data.length + " loaded from URL", "Data Loaded");
+
+				}).catch(function (err) {
+
+					console.warn(err)
+					JSAlert.alert(err.message, "Error")
+
+				});
+
+			});
+
+		</script>
 
 
+		<div id='test11' class='button'>Read Data URL</div>
+		<script>
 
+			var url11 = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuNCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyOHB4IiBoZWlnaHQ9IjU2cHgiIHZpZXdCb3g9IjAgMCAyOCA1NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjggNTY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJfeDM4XzU2LWxpZ2h0bmluZy1ib2x0X3g0MF8yeC5wbmciPg0KCTxnPg0KCQk8cGF0aCBkPSJNMjgsMjFIMTZsNi0yMUg4TDAsMzJoMTRsLTMsMjRMMjgsMjF6IE0yLjU2MiwzMGw3LTI4aDkuNzg3bC02LDIxaDExLjQ1N0wxNC40ODQsNDQuMjQ4bDEuNS0xMkwxNi4yNjYsMzBIMi41NjJ6Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo="
 
+			// Show the picker
+			document.querySelector("#test11").addEventListener("click", function (e) {
 
+				var file = JSFile.fromURL(url11)
+				JSAlert.alert("JSFile of " + file.size + " bytes loaded, type is " + file.type, "Data Loaded");
 
+				// Just for fun, convert it to a Object URL and display it
+				file.getObjectURL().then(function (url) {
+					document.getElementById("imagetest").src = url
+				})
 
+			});
+
+		</script>
+
+	</div>
 
 
 	<!-- Test category -->
-	<h2>Saving files</h2>
+	<h2>Saving Files</h2>
 
+	<!-- Saving files group -->
+	<div class="group">
 
+		<div id='test201' class='button'>Save binary data</div>
+		<script>
 
+			// Show the browser's native file saver immediately
+			document.querySelector("#test201").addEventListener("click", function (e) {
 
-	<div id='test201' class='button'>Save binary data</div>
-	<script>
+				// Generate some data
+				var data = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
 
-		// Show the browser's native file saver immediately
-		document.querySelector("#test201").addEventListener("click", function(e) {
+				// Save it
+				new JSFile(data, "MyFile.dat").save({ event: e }).then(function (file) {
 
-			// Generate some data
-			var data = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+					console.log(file);
+					JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
 
-			// Save it
-			new JSFile(data, "MyFile.dat").save({ event: e }).then(function(file) {
-
-				console.log(file);
-				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
-
-			});
-
-		});
-
-	</script>
-
-
-
-
-	<div id='test202' class='button'>Save string</div>
-	<script>
-
-		// Show the browser's native file saver immediately
-		document.querySelector("#test202").addEventListener("click", function(e) {
-
-			// Generate some data
-			var data = "test file content";
-
-			// Save it
-			new JSFile(data, "MyFile.txt").save({ event: e }).then(function(file) {
-
-				console.log(file);
-				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test202' class='button'>Save string</div>
+		<script>
 
+			// Show the browser's native file saver immediately
+			document.querySelector("#test202").addEventListener("click", function (e) {
 
-	<div id='test203' class='button'>Save JSON</div>
-	<script>
+				// Generate some data
+				var data = "test file content";
 
-		// Show the browser's native file saver immediately
-		document.querySelector("#test203").addEventListener("click", function(e) {
+				// Save it
+				new JSFile(data, "MyFile.txt").save({ event: e }).then(function (file) {
 
-			// Generate some data
-			var data = {attr: "value"};
+					console.log(file);
+					JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
 
-			// Save it
-			new JSFile(data, "MyFile.json").save({ event: e }).then(function(file) {
-
-				console.log(file);
-				JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
+				});
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test203' class='button'>Save JSON</div>
+		<script>
+
+			// Show the browser's native file saver immediately
+			document.querySelector("#test203").addEventListener("click", function (e) {
+
+				// Generate some data
+				var data = { attr: "value" };
+
+				// Save it
+				new JSFile(data, "MyFile.json").save({ event: e }).then(function (file) {
+
+					console.log(file);
+					JSAlert.alert(file.name + " is " + file.size + " bytes", "File Saved");
+
+				});
+
+			});
+
+		</script>
 
 
-	<div id='test204' class='button'>Reverse text file</div>
-	<script>
+		<div id='test204' class='button'>Reverse text file</div>
+		<script>
 
-		// Show the browser's native file picker immediately
-		document.querySelector("#test204").addEventListener("click", function(e) {
+			// Show the browser's native file picker immediately
+			document.querySelector("#test204").addEventListener("click", function (e) {
 
-			// Read a string file
-			JSFileManager.pick({ event: e }).then(function(file) {
+				// Read a string file
+				JSFileManager.pick({ event: e }).then(function (file) {
 
-				// Load text
-				file.getString().then(function(data) {
+					// Load text
+					file.getString().then(function (data) {
 
-					// Reverse the text
-					var text2 = "";
-					for (var i = 0 ; i < data.length ; i++)
-						text2 = data[i] + text2;
+						// Reverse the text
+						var text2 = "";
+						for (var i = 0; i < data.length; i++)
+							text2 = data[i] + text2;
 
-					// Create a file from it
-					new JSFile(text2, file.name + "-reversed.txt").save().then(function(file2) {
+						// Create a file from it
+						new JSFile(text2, file.name + "-reversed.txt").save().then(function (file2) {
 
-						console.log(file2);
-						JSAlert.alert(file2.name + " is " + file2.size + " bytes", "File Saved");
+							console.log(file2);
+							JSAlert.alert(file2.name + " is " + file2.size + " bytes", "File Saved");
+
+						});
 
 					});
 
@@ -385,88 +402,74 @@
 
 			});
 
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test205' class='button'>Download remote file</div>
+		<script>
 
+			// On button click...
+			document.querySelector("#test205").addEventListener("click", function (e) {
 
-	<div id='test205' class='button'>Download remote file</div>
-	<script>
+				// ... download and save file
+				JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").save()
 
-		// On button click...
-		document.querySelector("#test205").addEventListener("click", function(e) {
+			});
 
-			// ... download and save file
-			JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").save()
+		</script>
 
-		});
-
-	</script>
-
-
-
-
-
-
-
-
-
-
+	</div>
 
 
 	<!-- Test category -->
-	<h2>Displaying files</h2>
+	<h2>Displaying Files</h2>
 
 	<img id='imagetest' src='#' style='display: block; width: 300px; ' />
 
+	<!-- Displaying files group -->
+	<div class="group">
 
-	<div id='test301' class='button'>Display data URL</div>
-	<script>
+		<div id='test301' class='button'>Display data URL</div>
+		<script>
 
-		// Display image
-		document.querySelector("#test301").addEventListener("click", function(e) {
+			// Display image
+			document.querySelector("#test301").addEventListener("click", function (e) {
 
-			// Pick image
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getDataURL()
-			}).then(function(url) {
-				document.getElementById("imagetest").src = url
-			}).catch(function(err) {
-				JSAlert.alert(err.message, "Unable to Display")
-			})
+				// Pick image
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getDataURL()
+				}).then(function (url) {
+					document.getElementById("imagetest").src = url
+				}).catch(function (err) {
+					JSAlert.alert(err.message, "Unable to Display")
+				})
 
-		});
+			});
 
-	</script>
-
-
-	<div id='test302' class='button'>Display object URL</div>
-	<script>
-
-		// Display image
-		document.querySelector("#test302").addEventListener("click", function(e) {
-
-			// Pick image
-			JSFileManager.pick({ event: e }).then(function(file) {
-				return file.getObjectURL()
-			}).then(function(url) {
-				document.getElementById("imagetest").src = url
-			}).catch(function(err) {
-				JSAlert.alert(err.message, "Unable to Display")
-			})
-
-		});
-
-	</script>
+		</script>
 
 
+		<div id='test302' class='button'>Display object URL</div>
+		<script>
 
+			// Display image
+			document.querySelector("#test302").addEventListener("click", function (e) {
 
+				// Pick image
+				JSFileManager.pick({ event: e }).then(function (file) {
+					return file.getObjectURL()
+				}).then(function (url) {
+					document.getElementById("imagetest").src = url
+				}).catch(function (err) {
+					JSAlert.alert(err.message, "Unable to Display")
+				})
 
+			});
 
+		</script>
 
+	</div>
 
 </body>
+
 </html>

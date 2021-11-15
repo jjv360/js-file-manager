@@ -109,7 +109,7 @@ module.exports = class FilePicker {
 			container.appendChild(elem);
 
 			var elem2 = document.createElement("div");
-			elem2.style.cssText = "display: block; font-family: Helvetica, Arial; font-size: 17px; color: rgba(0, 0, 0, 0.5); text-align: center; ";
+			elem2.style.cssText = "display: block; font-family: Helvetica, Arial; font-size: 17px; color: rgba(0, 0, 0, 0.5); text-align: center; user-select: none;";
 			elem2.innerHTML = this.options.maxFiles == 1 ? "Drop a file here" : "Drop files here";
 			container.appendChild(elem2);
 
