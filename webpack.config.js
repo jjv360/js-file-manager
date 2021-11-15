@@ -16,7 +16,8 @@ module.exports = {
     // Final output file
     output: {
         path: path.resolve(__dirname, './dist'),
-        filename: 'jsfilemanager.min.js'
+        filename: 'jsfilemanager.min.js',
+        clean: true
     },
 
     // Generate source map
