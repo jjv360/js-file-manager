@@ -1,46 +1,50 @@
-
 //
-// WebPack config file
+// Webpack config file
 
-var webpack = require('webpack');
+const path = require('path')
 
 module.exports = {
-    plugins: [],
-    module: {
-        loaders: []
+
+    // Use production mode
+    mode: "production",
+
+    // Entry file
+    entry: {
+        main: path.resolve(__dirname, './src/index-webpack.js')
     },
-    externals: []
-};
 
-// The app's starting file
-module.exports.entry = "./src/index-webpack.js";
+    // Final output file
+    output: {
+        path: path.resolve(__dirname, './dist'),
+        filename: 'jsfilemanager.min.js',
+        clean: true
+    },
 
-// The final app's JS output file
-module.exports.output = {
-    path: __dirname + "/dist/",
-    filename: "jsfilemanager.min.js",
-    libraryTarget:"var"
-};
+    // Generate source map
+    devtool: 'source-map',
 
-// Output a sourcemap
-module.exports.devtool = "source-map";
+    module: {
+        rules: [
+            // Load images
+            {
+                test: /\.(svg|png|gif|jpg)$/,
+                type: 'asset/resource',
+            },
 
-// Compile support for ES6 classes and React etc
-module.exports.module.loaders.push({
-    test: /\.js$/,
-    exclude: /node_modules/,
-    loader: 'babel-loader',
-    query: {
-        presets: ["es2015"]
+            // Load JS
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            ['@babel/preset-env', { targets: "defaults" }]
+                        ]
+                    }
+                }
+            }
+        ]
     }
-});
 
-
-// Compile support for images and other media.
-module.exports.module.loaders.push({
-    test: /\.(svg|png|gif|jpg)$/,
-    loader: "url-loader",
-	options: {
-		limit: 1024*1024*16
-	}
-});
+};

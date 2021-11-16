@@ -105,7 +105,7 @@ module.exports = class FilePicker {
 
 			// Add drop info
 			var elem = document.createElement("div");
-			elem.style.cssText = "display: inline-block; width: 100%; height: 100px; background-size: 64px 64px; opacity: 0.25; background-repeat: no-repeat; background-position: center; background-image: url(" + require("./FilePicker.drop.svg") + "); ";
+			elem.style.cssText = "display: inline-block; width: 100%; height: 100px; background-size: 64px 64px; opacity: 0.25; background-repeat: no-repeat; background-position: center; background-image: url(" + require("./drop.svg") + "); ";
 			container.appendChild(elem);
 
 			var elem2 = document.createElement("div");
@@ -124,7 +124,7 @@ module.exports = class FilePicker {
 			this.fileList.appendChild(row);
 
 			// Create icon
-			var icon = require("./FilePicker.iconFile.svg");
+			var icon = require("./file.svg");
 			var iconDiv = document.createElement("div");
 			iconDiv.style.cssText = "width: 44px; height: 100%; background-size: 24px 24px; background-repeat: no-repeat; background-position: center; background-image: url(" + icon + "); ";
 			row.appendChild(iconDiv);
