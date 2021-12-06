@@ -11,6 +11,7 @@ module.exports = class JSFileManager {
 	 * @param {object} opts Configurable options.
 	 * @param {number} opts.maxFiles Maximum number of files to select. Default is 1.
 	 * @param {boolean} opts.dropzone `true` to show a drop zone overlay, allowing the user to drop files instead of selecting them. Default is `false`.
+	 * @param {string} opts.accept Comma-separated list of file types, or unique file type specifiers, to allow. See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept for more information.
 	 * @param {Event} opts.event Browser event.
 	 */
 	static pick(opts = {}) {

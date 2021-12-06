@@ -3,6 +3,10 @@
 
 var JSFile = require("../JSFile")
 
+/**
+ * Native file input element.
+ * @type HTMLInputElement
+ */
 var NativeElement = null;
 
 module.exports = class NativeFilePicker {
@@ -18,18 +22,17 @@ module.exports = class NativeFilePicker {
 			NativeElement.type = "file";
 			NativeElement.style.display = "none";
 
-			// Only accept specific file formats
-			if (opts.accept != null && typeof opts.accept == 'string') {
-				NativeElement.accept = opts.accept;
-			}
+			// Accept only specific file types or default to accept anything
+			NativeElement.accept = opts.accept != null && typeof opts.accept == "string" ? opts.accept : "*"
 
 			// Add it
 			document.body.appendChild(NativeElement);
 
 		}
 
-		// Set multiple option
+		// Update based on given options
 		NativeElement.multiple = opts.maxFiles > 1;
+		NativeElement.accept = opts.accept != null && typeof opts.accept == "string" ? opts.accept : "*"
 		NativeElement.value = "";
 
 		// Return promise
@@ -40,7 +43,7 @@ module.exports = class NativeFilePicker {
 
 				// Create array of files
 				var itms = [];
-				for (var i = 0 ; i < Math.min(NativeElement.files.length, opts.maxFiles) ; i++)
+				for (var i = 0; i < Math.min(NativeElement.files.length, opts.maxFiles); i++)
 					itms.push(new JSFile(NativeElement.files[i]));
 
 				onSuccess(itms);

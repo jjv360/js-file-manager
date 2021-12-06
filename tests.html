@@ -69,11 +69,11 @@
 	<!-- Opening files group -->
 	<div class='group'>
 
-		<div id='test01' class='button'>Pick a file</div>
+		<div id='test101' class='button'>Pick a file</div>
 		<script>
 
 			// Show the browser's native file picker immediately
-			document.querySelector("#test01").addEventListener("click", function (e) {
+			document.querySelector("#test101").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 
@@ -87,11 +87,11 @@
 		</script>
 
 
-		<div id='test02' class='button'>Pick a file with drop zone</div>
+		<div id='test102' class='button'>Pick a file with drop zone</div>
 		<script>
 
 			// Show the picker overlay
-			document.querySelector("#test02").addEventListener("click", function (e) {
+			document.querySelector("#test102").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ dropzone: true }).then(function (file) {
 
@@ -110,11 +110,11 @@
 		</script>
 
 
-		<div id='test03' class='button'>Pick multiple files with drop zone</div>
+		<div id='test103' class='button'>Pick multiple files with drop zone</div>
 		<script>
 
 			// Show the picker overlay
-			document.querySelector("#test03").addEventListener("click", function (e) {
+			document.querySelector("#test103").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ dropzone: true, maxFiles: 999 }).then(function (files) {
 
@@ -133,11 +133,34 @@
 		</script>
 
 
-		<div id='test04' class='button'>Read ArrayBuffer</div>
+		<div id='test104' class='button'>Pick an image file</div>
+		<script>
+
+			// Show the picker overlay
+			document.querySelector("#test104").addEventListener("click", function (e) {
+
+				JSFileManager.pick({ accept: "image/*" }).then(function (file) {
+
+					// Do nothing when no file was selected
+					if (!file) {
+						return
+					}
+
+					console.log(file);
+					JSAlert.alert("You picked an image file called " + file.name, "Image Picked")
+
+				});
+
+			});
+
+		</script>
+
+
+		<div id='test105' class='button'>Read ArrayBuffer</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test04").addEventListener("click", function (e) {
+			document.querySelector("#test105").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 					return file.getArrayBuffer();
@@ -153,11 +176,11 @@
 		</script>
 
 
-		<div id='test05' class='button'>Read Blob</div>
+		<div id='test106' class='button'>Read Blob</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test05").addEventListener("click", function (e) {
+			document.querySelector("#test106").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 					return file.getBlob();
@@ -173,11 +196,11 @@
 		</script>
 
 
-		<div id='test06' class='button'>Read String</div>
+		<div id='test107' class='button'>Read String</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test06").addEventListener("click", function (e) {
+			document.querySelector("#test107").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 					return file.getString();
@@ -193,11 +216,11 @@
 		</script>
 
 
-		<div id='test07' class='button'>Read JSON</div>
+		<div id='test108' class='button'>Read JSON</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test07").addEventListener("click", function (e) {
+			document.querySelector("#test108").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 					return file.getJSON();
@@ -213,11 +236,11 @@
 		</script>
 
 
-		<div id='test08' class='button'>Read Data URL</div>
+		<div id='test109' class='button'>Read Data URL</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test08").addEventListener("click", function (e) {
+			document.querySelector("#test109").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 					return file.getDataURL();
@@ -233,11 +256,11 @@
 		</script>
 
 
-		<div id='test09' class='button'>Read Object URL</div>
+		<div id='test110' class='button'>Read Object URL</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test09").addEventListener("click", function (e) {
+			document.querySelector("#test110").addEventListener("click", function (e) {
 
 				JSFileManager.pick({ event: e }).then(function (file) {
 					return file.getObjectURL();
@@ -253,11 +276,11 @@
 		</script>
 
 
-		<div id='test10' class='button'>Open URL and read string</div>
+		<div id='test111' class='button'>Open URL and read string</div>
 		<script>
 
 			// Show the picker
-			document.querySelector("#test10").addEventListener("click", function (e) {
+			document.querySelector("#test111").addEventListener("click", function (e) {
 
 				JSFile.fromURL("https://rawgit.com/jjv360/js-file-manager/master/tests.html").getString().then(function (data) {
 
@@ -276,13 +299,13 @@
 		</script>
 
 
-		<div id='test11' class='button'>Read Data URL</div>
+		<div id='test112' class='button'>Read Data URL</div>
 		<script>
 
 			var url11 = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE2LjAuNCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4NCjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiDQoJIHdpZHRoPSIyOHB4IiBoZWlnaHQ9IjU2cHgiIHZpZXdCb3g9IjAgMCAyOCA1NiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjggNTY7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4NCjxnIGlkPSJfeDM4XzU2LWxpZ2h0bmluZy1ib2x0X3g0MF8yeC5wbmciPg0KCTxnPg0KCQk8cGF0aCBkPSJNMjgsMjFIMTZsNi0yMUg4TDAsMzJoMTRsLTMsMjRMMjgsMjF6IE0yLjU2MiwzMGw3LTI4aDkuNzg3bC02LDIxaDExLjQ1N0wxNC40ODQsNDQuMjQ4bDEuNS0xMkwxNi4yNjYsMzBIMi41NjJ6Ii8+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo="
 
 			// Show the picker
-			document.querySelector("#test11").addEventListener("click", function (e) {
+			document.querySelector("#test112").addEventListener("click", function (e) {
 
 				var file = JSFile.fromURL(url11)
 				JSAlert.alert("JSFile of " + file.size + " bytes loaded, type is " + file.type, "Data Loaded");
